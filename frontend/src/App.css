@@ -1,0 +1,46 @@
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2rem;
+}
+
+header p {
+  margin: 0;
+  color: #9aa0a6;
+}
+
+.status-card {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #2d333b;
+  border-radius: 8px;
+  background: #161b22;
+}
+
+.status-card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.125rem;
+}
+
+.status-card ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.status-ok {
+  color: #3fb950;
+}
+
+.status-warn {
+  color: #d29922;
+}
+
+.status-error {
+  color: #f85149;
+  margin: 0;
+}
