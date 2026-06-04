@@ -1,10 +1,11 @@
+import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
 const NAV_ITEMS = [
-  { id: "overview", label: "Overview", href: "#overview", active: true },
-  { id: "services", label: "Services", href: "#services", active: false },
-  { id: "metrics", label: "Metrics", href: "#metrics", active: false },
-  { id: "settings", label: "Settings", href: "#settings", active: false },
+  { id: "dashboard", label: "Dashboard", to: "/dashboard" },
+  { id: "services", label: "Services", to: "/services" },
+  { id: "metrics", label: "Metrics", to: "/metrics" },
+  { id: "settings", label: "Settings", to: "/settings" },
 ] as const;
 
 type SidebarProps = {
@@ -30,14 +31,15 @@ export function Sidebar({ open, onNavigate }: SidebarProps) {
           <ul className="sidebar__list">
             {NAV_ITEMS.map((item) => (
               <li key={item.id}>
-                <a
-                  href={item.href}
-                  className={`sidebar__link ${item.active ? "sidebar__link--active" : ""}`}
-                  aria-current={item.active ? "page" : undefined}
+                <NavLink
+                  to={item.to}
+                  className={({ isActive }) =>
+                    `sidebar__link ${isActive ? "sidebar__link--active" : ""}`
+                  }
                   onClick={onNavigate}
                 >
                   {item.label}
-                </a>
+                </NavLink>
               </li>
             ))}
           </ul>

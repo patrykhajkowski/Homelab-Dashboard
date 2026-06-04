@@ -1,14 +1,11 @@
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
 import { Header } from "./Header";
 import { MainContent } from "./MainContent";
 import { Sidebar } from "./Sidebar";
 import "./AppLayout.css";
 
-type AppLayoutProps = {
-  children: ReactNode;
-};
-
-export function AppLayout({ children }: AppLayoutProps) {
+export function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
@@ -39,7 +36,9 @@ export function AppLayout({ children }: AppLayoutProps) {
       <Sidebar open={sidebarOpen} onNavigate={closeSidebar} />
       <div className="app-layout__body">
         <Header onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
-        <MainContent>{children}</MainContent>
+        <MainContent>
+          <Outlet />
+        </MainContent>
       </div>
     </div>
   );

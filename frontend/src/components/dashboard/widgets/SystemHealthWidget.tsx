@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import "./StatusCard.css";
+import { DashboardWidget } from "../DashboardWidget";
+import "./widgets.css";
 
 type HealthResponse = {
   status: string;
   database?: boolean;
 };
 
-export function StatusCard() {
+export function SystemHealthWidget() {
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -33,27 +34,31 @@ export function StatusCard() {
   }, []);
 
   return (
-    <section className="status-card" id="overview">
-      <h2>API Status</h2>
-      {loading && <p>Checking backend...</p>}
+    <DashboardWidget title="System Health" span="wide">
+      {loading && <p className="widget-placeholder">Checking backend...</p>}
       {!loading && error && (
-        <p className="status-card__error">
+        <p className="widget-error">
           Backend unreachable: {error}. Start the API and database (see README).
         </p>
       )}
       {!loading && health && (
-        <ul className="status-card__list">
+        <ul className="widget-stat-list">
           <li>
-            API: <span className="status-card__ok">{health.status}</span>
+            <span className="widget-stat-list__label">API</span>
+            <span className="widget-stat-list__value widget-stat-list__value--ok">
+              {health.status}
+            </span>
           </li>
           <li>
-            Database:{" "}
-            <span className={health.database ? "status-card__ok" : "status-card__warn"}>
+            <span className="widget-stat-list__label">Database</span>
+            <span
+              className={`widget-stat-list__value ${health.database ? "widget-stat-list__value--ok" : "widget-stat-list__value--warn"}`}
+            >
               {health.database ? "connected" : "disconnected"}
             </span>
           </li>
         </ul>
       )}
-    </section>
+    </DashboardWidget>
   );
 }
