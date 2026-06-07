@@ -1,5 +1,11 @@
 import { SystemHealthWidget } from "../components/dashboard/widgets/SystemHealthWidget";
 import { PlaceholderWidget } from "../components/dashboard/widgets/PlaceholderWidget";
+import {
+  CpuUsageWidget,
+  RamUsageWidget,
+  StorageUsageWidget,
+} from "../components/dashboard/widgets/ResourceUsageWidgets";
+import { ResourceUsageProvider } from "../components/dashboard/ResourceUsageProvider";
 import "./DashboardPage.css";
 
 export function DashboardPage() {
@@ -19,24 +25,11 @@ export function DashboardPage() {
           detail="Running services — data coming soon"
         />
 
-        <PlaceholderWidget
-          title="CPU Usage"
-          value="34%"
-          detail="Average across all hosts"
-        />
-
-        <PlaceholderWidget
-          title="Memory"
-          value="61%"
-          detail="Cluster memory utilization"
-        />
-
-        <PlaceholderWidget
-          title="Storage"
-          span="wide"
-          value="2.4 TB"
-          detail="Used of 4.0 TB total capacity"
-        />
+        <ResourceUsageProvider>
+          <CpuUsageWidget />
+          <RamUsageWidget />
+          <StorageUsageWidget />
+        </ResourceUsageProvider>
 
         <PlaceholderWidget
           title="Network"
