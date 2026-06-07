@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
+import { useTheme } from "../../hooks/useTheme";
 import { Header } from "./Header";
 import { MainContent } from "./MainContent";
 import { Sidebar } from "./Sidebar";
@@ -7,13 +8,12 @@ import "./AppLayout.css";
 
 export function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const toggleSidebar = useCallback(() => setSidebarOpen((open) => !open), []);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", "dark");
-
     const mq = window.matchMedia("(min-width: 768px)");
     const onResize = () => {
       if (mq.matches) setSidebarOpen(false);
@@ -35,7 +35,12 @@ export function AppLayout() {
     <div className="app-layout">
       <Sidebar open={sidebarOpen} onNavigate={closeSidebar} />
       <div className="app-layout__body">
-        <Header onMenuToggle={toggleSidebar} sidebarOpen={sidebarOpen} />
+        <Header
+          onMenuToggle={toggleSidebar}
+          sidebarOpen={sidebarOpen}
+          theme={theme}
+          onThemeToggle={toggleTheme}
+        />
         <MainContent>
           <Outlet />
         </MainContent>

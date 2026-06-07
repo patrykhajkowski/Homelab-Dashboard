@@ -1,11 +1,21 @@
+import type { Theme } from "../../hooks/useTheme";
 import "./Header.css";
 
 type HeaderProps = {
   onMenuToggle: () => void;
   sidebarOpen: boolean;
+  theme: Theme;
+  onThemeToggle: () => void;
 };
 
-export function Header({ onMenuToggle, sidebarOpen }: HeaderProps) {
+export function Header({
+  onMenuToggle,
+  sidebarOpen,
+  theme,
+  onThemeToggle,
+}: HeaderProps) {
+  const isDark = theme === "dark";
+
   return (
     <header className="header">
       <div className="header__start">
@@ -30,9 +40,15 @@ export function Header({ onMenuToggle, sidebarOpen }: HeaderProps) {
         </div>
       </div>
       <div className="header__end">
-        <span className="header__badge" title="Dark mode active">
-          Dark
-        </span>
+        <button
+          type="button"
+          className="header__theme-btn"
+          onClick={onThemeToggle}
+          aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+        >
+          {isDark ? "Light" : "Dark"}
+        </button>
       </div>
     </header>
   );
