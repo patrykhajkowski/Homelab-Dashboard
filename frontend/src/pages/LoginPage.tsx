@@ -1,5 +1,6 @@
-import { type FormEvent, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { type FormEvent, useEffect, useState } from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { consumeSessionExpiredFlag } from "../api/fetch";
 import { useAuth } from "../hooks/useAuth";
 import type { LoginFieldErrors } from "../types/auth";
 import "./LoginPage.css";
@@ -22,11 +23,22 @@ function validateForm(username: string, password: string): LoginFieldErrors {
 export function LoginPage() {
   const { user, loading, login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fieldErrors, setFieldErrors] = useState<LoginFieldErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [sessionNotice, setSessionNotice] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (consumeSessionExpiredFlag()) {
+      setSessionNotice("Your session has expired. Please sign in again.");
+    }
+  }, []);
+
+  const redirectPath =
+    (location.state as { from?: string } | null)?.from ?? "/dashboard";
 
   if (loading) {
     return (
@@ -55,7 +67,7 @@ export function LoginPage() {
     setSubmitting(true);
     try {
       await login(username.trim(), password);
-      navigate("/dashboard", { replace: true });
+      navigate(redirectPath, { replace: true });
     } catch {
       setSubmitError("Invalid username or password");
     } finally {
@@ -75,6 +87,12 @@ export function LoginPage() {
         </header>
 
         <form className="login-form" onSubmit={handleSubmit} noValidate>
+          {sessionNotice && (
+            <p className="login-form__notice" role="status">
+              {sessionNotice}
+            </p>
+          )}
+
           <div className="login-form__field">
             <label className="login-form__label" htmlFor="username">
               Username

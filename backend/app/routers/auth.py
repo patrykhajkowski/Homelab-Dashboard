@@ -38,5 +38,10 @@ def me(username: str = Depends(get_current_user)) -> UserRead:
 
 @router.post("/logout")
 def logout(response: Response) -> dict[str, str]:
-    response.delete_cookie(key=SESSION_COOKIE)
+    response.delete_cookie(
+        key=SESSION_COOKIE,
+        httponly=True,
+        samesite="lax",
+        secure=settings.cookie_secure,
+    )
     return {"status": "ok"}

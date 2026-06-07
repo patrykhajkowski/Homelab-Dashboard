@@ -70,3 +70,23 @@ def test_protected_route_with_session() -> None:
         client.post("/api/auth/login", json=VALID_CREDENTIALS)
         response = client.get("/api/resources")
         assert response.status_code == 200
+
+
+def test_expired_session_rejected() -> None:
+    from datetime import UTC, datetime, timedelta
+
+    from app.config import settings
+    from app.dependencies.auth import ALGORITHM, SESSION_COOKIE
+    from jose import jwt
+
+    expired_token = jwt.encode(
+        {"sub": "admin", "exp": datetime.now(UTC) - timedelta(hours=1)},
+        settings.jwt_secret,
+        algorithm=ALGORITHM,
+    )
+
+    with TestClient(app) as client:
+        client.cookies.set(SESSION_COOKIE, expired_token)
+        response = client.get("/api/auth/me")
+        assert response.status_code == 401
+        assert response.json()["detail"] == "Session expired"

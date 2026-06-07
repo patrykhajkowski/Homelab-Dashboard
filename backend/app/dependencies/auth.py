@@ -3,6 +3,7 @@ from datetime import UTC, datetime, timedelta
 from app.config import settings
 from fastapi import HTTPException, Request, status
 from jose import JWTError, jwt
+from jose.exceptions import ExpiredSignatureError
 
 SESSION_COOKIE = "session"
 ALGORITHM = "HS256"
@@ -25,6 +26,11 @@ def get_current_user(request: Request) -> str:
     try:
         payload = jwt.decode(token, settings.jwt_secret, algorithms=[ALGORITHM])
         username = payload.get("sub")
+    except ExpiredSignatureError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Session expired",
+        ) from exc
     except JWTError as exc:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

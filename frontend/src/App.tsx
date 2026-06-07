@@ -18,8 +18,10 @@ function App() {
             <Route path="services" element={<ServicesPage />} />
             <Route path="metrics" element={<PlaceholderPage title="Metrics" />} />
             <Route path="settings" element={<PlaceholderPage title="Settings" />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
         </Route>
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );

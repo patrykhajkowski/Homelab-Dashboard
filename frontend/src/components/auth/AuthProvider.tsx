@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
-import { apiFetch } from "../../api/fetch";
+import {
+  apiFetch,
+  markSessionExpired,
+  setUnauthorizedHandler,
+} from "../../api/fetch";
 import { AuthContext } from "../../hooks/useAuth";
 import type { User } from "../../types/auth";
 
@@ -7,25 +11,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const clearSession = useCallback((reason?: "expired" | "unauthorized") => {
+    if (reason === "expired") {
+      markSessionExpired();
+    }
+    setUser(null);
+  }, []);
+
   const refreshSession = useCallback(async () => {
     try {
       const response = await apiFetch("/api/auth/me");
       if (!response.ok) {
-        setUser(null);
+        clearSession();
         return;
       }
       const data = (await response.json()) as User;
       setUser(data);
     } catch {
-      setUser(null);
+      clearSession();
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [clearSession]);
 
   useEffect(() => {
     void refreshSession();
   }, [refreshSession]);
+
+  useEffect(() => {
+    setUnauthorizedHandler((reason) => {
+      clearSession(reason);
+    });
+    return () => setUnauthorizedHandler(null);
+  }, [clearSession]);
 
   const login = useCallback(async (username: string, password: string) => {
     const response = await apiFetch("/api/auth/login", {
@@ -46,9 +64,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await apiFetch("/api/auth/logout", { method: "POST" });
     } finally {
-      setUser(null);
+      clearSession();
     }
-  }, []);
+  }, [clearSession]);
 
   return (
     <AuthContext.Provider value={{ user, loading, login, logout }}>
