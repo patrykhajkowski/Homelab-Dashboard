@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
+import { apiFetch } from "../../api/fetch";
 import { ResourceUsageContext } from "../../hooks/useResourceUsage";
 import type { ResourceUsage } from "../../types/resource";
 
@@ -10,7 +11,7 @@ export function ResourceUsageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await fetch("/api/resources");
+        const response = await apiFetch("/api/resources");
         if (!response.ok) {
           throw new Error(`API responded with ${response.status}`);
         }

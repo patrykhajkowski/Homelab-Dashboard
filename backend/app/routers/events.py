@@ -1,9 +1,14 @@
 from datetime import UTC, datetime, timedelta
 
+from app.dependencies.auth import get_current_user
 from app.schemas.event import EventRead, EventSeverity
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-router = APIRouter(prefix="/api/events", tags=["events"])
+router = APIRouter(
+    prefix="/api/events",
+    tags=["events"],
+    dependencies=[Depends(get_current_user)],
+)
 
 _now = datetime(2026, 6, 7, 15, 0, tzinfo=UTC)
 

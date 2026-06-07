@@ -6,6 +6,8 @@ type HeaderProps = {
   sidebarOpen: boolean;
   theme: Theme;
   onThemeToggle: () => void;
+  username?: string;
+  onLogout: () => void;
 };
 
 export function Header({
@@ -13,6 +15,8 @@ export function Header({
   sidebarOpen,
   theme,
   onThemeToggle,
+  username,
+  onLogout,
 }: HeaderProps) {
   const isDark = theme === "dark";
 
@@ -40,6 +44,7 @@ export function Header({
         </div>
       </div>
       <div className="header__end">
+        {username && <span className="header__user">{username}</span>}
         <button
           type="button"
           className="header__theme-btn"
@@ -48,6 +53,15 @@ export function Header({
           title={isDark ? "Switch to light mode" : "Switch to dark mode"}
         >
           {isDark ? "Light" : "Dark"}
+        </button>
+        <button
+          type="button"
+          className="header__theme-btn"
+          onClick={onLogout}
+          aria-label="Sign out"
+          title="Sign out"
+        >
+          Sign out
         </button>
       </div>
     </header>

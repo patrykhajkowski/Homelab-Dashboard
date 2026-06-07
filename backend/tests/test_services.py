@@ -1,4 +1,10 @@
 def test_list_services(client) -> None:
+    login_response = client.post(
+        "/api/auth/login",
+        json={"username": "admin", "password": "change-me"},
+    )
+    assert login_response.status_code == 200
+
     response = client.get("/api/services")
     assert response.status_code == 200
 

@@ -18,6 +18,11 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:5173"
     backend_host: str = "0.0.0.0"
     backend_port: int = 8000
+    auth_username: str = "admin"
+    auth_password: str = "change-me"
+    jwt_secret: str = "dev-secret-change-in-production"
+    jwt_expire_hours: int = 24
+    cookie_secure: bool = False
 
     @property
     def cors_origin_list(self) -> list[str]:

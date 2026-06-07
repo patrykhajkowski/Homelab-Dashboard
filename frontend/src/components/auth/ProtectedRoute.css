@@ -1,0 +1,12 @@
+.auth-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: var(--color-text-muted);
+}
+
+.auth-loading p {
+  margin: 0;
+  font-size: 0.9375rem;
+}

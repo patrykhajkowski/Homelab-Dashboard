@@ -97,6 +97,11 @@
   flex-shrink: 0;
 }
 
+.header__user {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
 .header__theme-btn {
   padding: 0.25rem 0.625rem;
   font-size: 0.6875rem;

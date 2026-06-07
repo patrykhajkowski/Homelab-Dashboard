@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.config import settings
 from app.database import Base, SessionLocal, check_database_connection, engine
 from app.models import service as service_model  # noqa: F401
+from app.routers.auth import router as auth_router
 from app.routers.events import router as events_router
 from app.routers.resources import router as resources_router
 from app.routers.services import router as services_router
@@ -42,6 +43,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router)
 app.include_router(services_router)
 app.include_router(resources_router)
 app.include_router(events_router)

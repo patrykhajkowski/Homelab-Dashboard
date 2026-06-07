@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "../api/fetch";
 import { ServiceCard } from "../components/services/ServiceCard";
 import type { Service } from "../types/service";
 import "./ServicesPage.css";
@@ -11,7 +12,7 @@ export function ServicesPage() {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await fetch("/api/services");
+        const response = await apiFetch("/api/services");
         if (!response.ok) {
           throw new Error(`API responded with ${response.status}`);
         }

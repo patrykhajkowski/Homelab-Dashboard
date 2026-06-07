@@ -5,6 +5,12 @@ client = TestClient(app)
 
 
 def test_resource_usage_endpoint() -> None:
+    login_response = client.post(
+        "/api/auth/login",
+        json={"username": "admin", "password": "change-me"},
+    )
+    assert login_response.status_code == 200
+
     response = client.get("/api/resources")
     assert response.status_code == 200
 

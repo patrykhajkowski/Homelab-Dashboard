@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 import { useTheme } from "../../hooks/useTheme";
 import { Header } from "./Header";
 import { MainContent } from "./MainContent";
@@ -9,6 +10,8 @@ import "./AppLayout.css";
 export function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const toggleSidebar = useCallback(() => setSidebarOpen((open) => !open), []);
@@ -40,6 +43,10 @@ export function AppLayout() {
           sidebarOpen={sidebarOpen}
           theme={theme}
           onThemeToggle={toggleTheme}
+          username={user?.username}
+          onLogout={() => {
+            void logout().then(() => navigate("/login", { replace: true }));
+          }}
         />
         <MainContent>
           <Outlet />

@@ -1,7 +1,12 @@
+from app.dependencies.auth import get_current_user
 from app.schemas.resources import ResourceUsage
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-router = APIRouter(prefix="/api/resources", tags=["resources"])
+router = APIRouter(
+    prefix="/api/resources",
+    tags=["resources"],
+    dependencies=[Depends(get_current_user)],
+)
 
 MOCK_RESOURCE_USAGE = ResourceUsage(
     cpu_percent=34.0,

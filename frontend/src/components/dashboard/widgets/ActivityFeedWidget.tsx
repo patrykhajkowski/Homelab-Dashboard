@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "../../../api/fetch";
 import { DashboardWidget } from "../DashboardWidget";
 import type { Event } from "../../../types/event";
 import "./widgets.css";
@@ -23,7 +24,7 @@ export function ActivityFeedWidget() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch("/api/events");
+        const response = await apiFetch("/api/events");
         if (!response.ok) {
           throw new Error(`API responded with ${response.status}`);
         }
