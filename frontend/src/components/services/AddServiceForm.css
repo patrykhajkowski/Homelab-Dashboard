@@ -1,0 +1,128 @@
+.add-service {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+}
+
+.add-service__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.add-service__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.add-service__toggle {
+  padding: 0.375rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-accent);
+  background: var(--color-accent-muted);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.add-service__toggle:hover {
+  border-color: var(--color-accent);
+}
+
+.add-service-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.add-service-form__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .add-service-form__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.add-service-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.add-service-form__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.add-service-form__input {
+  padding: 0.625rem 0.75rem;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.add-service-form__input:focus {
+  border-color: var(--color-accent);
+}
+
+.add-service-form__input--error {
+  border-color: var(--color-error);
+}
+
+.add-service-form__hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.add-service-form__error,
+.add-service-form__submit-error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-error);
+}
+
+.add-service-form__submit {
+  align-self: flex-start;
+  padding: 0.625rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-accent-muted);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.add-service-form__submit:hover:not(:disabled) {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #ffffff;
+}
+
+.add-service-form__submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+[data-theme="dark"] .add-service-form__submit:hover:not(:disabled) {
+  color: var(--color-bg);
+}

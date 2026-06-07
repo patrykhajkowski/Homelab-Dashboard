@@ -1,17 +1,4 @@
-const SERVICE_ICONS: Record<string, string> = {
-  plex: "🎬",
-  nginx: "🌐",
-  "home-assistant": "🏠",
-  grafana: "📊",
-  prometheus: "🔥",
-  postgres: "🐘",
-  redis: "⚡",
-  vaultwarden: "🔐",
-  sonarr: "📺",
-  radarr: "🎞️",
-  pihole: "🛡️",
-  "uptime-kuma": "📡",
-};
+import { SERVICE_ICONS } from "../../constants/serviceIcons";
 
 type ServiceIconProps = {
   icon: string;

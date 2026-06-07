@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { apiFetch } from "../api/fetch";
+import { AddServiceForm } from "../components/services/AddServiceForm";
 import { ServiceCard } from "../components/services/ServiceCard";
 import type { Service } from "../types/service";
 import "./ServicesPage.css";
@@ -9,26 +10,26 @@ export function ServicesPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await apiFetch("/api/services");
-        if (!response.ok) {
-          throw new Error(`API responded with ${response.status}`);
-        }
-        const data = (await response.json()) as Service[];
-        setServices(data);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Unknown error");
-        setServices([]);
-      } finally {
-        setLoading(false);
+  const loadServices = useCallback(async () => {
+    try {
+      const response = await apiFetch("/api/services");
+      if (!response.ok) {
+        throw new Error(`API responded with ${response.status}`);
       }
-    };
-
-    void fetchServices();
+      const data = (await response.json()) as Service[];
+      setServices(data);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+      setServices([]);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    void loadServices();
+  }, [loadServices]);
 
   return (
     <div className="services-page">
@@ -38,6 +39,8 @@ export function ServicesPage() {
           All homelab services and their current status
         </p>
       </header>
+
+      <AddServiceForm onSuccess={() => void loadServices()} />
 
       {loading && <p className="services-page__message">Loading services...</p>}
       {!loading && error && (
