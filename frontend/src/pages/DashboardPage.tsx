@@ -1,3 +1,4 @@
+import { ActivityFeedWidget } from "../components/dashboard/widgets/ActivityFeedWidget";
 import { SystemHealthWidget } from "../components/dashboard/widgets/SystemHealthWidget";
 import { PlaceholderWidget } from "../components/dashboard/widgets/PlaceholderWidget";
 import {
@@ -48,6 +49,8 @@ export function DashboardPage() {
           value="99.8%"
           detail="Rolling 30-day availability"
         />
+
+        <ActivityFeedWidget />
       </div>
     </div>
   );
